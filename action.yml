@@ -1,10 +1,9 @@
 name: 'Set tags in a docker-compose file'
 description: 'Sets tags for images in a docker-compose file'
 inputs:
-  source-tag:
-    description: 'Tag to replace, will be searched for in the compose file'
-    required: false
-    default: "latest"
+  images:
+    description: 'Full image names to change the tag, separated by semilicon'
+    required: true
   target-tag:
     description: 'Tag to set, will be searched for in the compose file'
     required: true
@@ -22,4 +21,4 @@ runs:
     - id: set-compose-tag
       shell: bash
       run: |
-        . ${{ github.action_path }}/set-compose-tags.sh ${{ inputs.source-tag }} ${{ inputs.target-tag }} ${{ inputs.target-registry }} ${{ inputs.compose-file }}
+        . ${{ github.action_path }}/set-compose-tags.sh ${{ inputs.images }} ${{ inputs.target-tag }} ${{ inputs.target-registry }} ${{ inputs.compose-file }}
