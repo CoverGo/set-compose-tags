@@ -1,0 +1,56 @@
+version: '2.4' 
+services:
+  covergo-mongo:
+    image: ghcr.io/covergo/cases-mongo:latest
+    restart: always
+    build:
+      dockerfile:  ./Mongo.Dockerfile
+      context: .
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=local_dev
+      - MONGO_INITDB_DATABASE=cases
+    ports:
+      - 27017:27017
+      
+      
+  covergo-cases:
+    image: ghcr.io/covergo/cases:latest
+    restart: always
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - isDeployment=true
+      - datacenterId=developer-machine
+      - DATABASE_CONNECT_STRING=mongodb://root:local_dev@covergo-mongo
+      - DATABASE_DRIVER=mongoDb
+    ports:
+      - 8080:8080
+    depends_on:
+      - covergo-mongo
+        
+  #alpine-based asp.net core does not have neither apk neither curl\wget,
+  #so need to replace it somehow
+  covergo-cases-health: 
+    image: busybox
+    #use trap to exit gracefully from sleep
+    command: ["/bin/sh", "-c", "trap \"echo exiting; exit 0\" TERM; sleep 1d & wait"]
+    healthcheck:
+      test: "wget http://covergo-cases:8080/healthz -q -O -  || exit 1"
+      interval: 1s
+      timeout: 1s
+      retries: 30
+    
+  covergo-cases-tests-integration:
+    image: ghcr.io/covergo/cases-test-integration:latest
+    restart: always
+    build:
+      dockerfile: ./Tests.Integration.Dockerfile
+      context: .
+    environment:
+      - CASES_INTEGRATION_TEST-CasesUrl=http://covergo-cases:8080
+    depends_on:
+      covergo-cases-health:
+         condition: service_healthy

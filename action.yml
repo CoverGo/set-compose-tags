@@ -1,0 +1,25 @@
+name: 'Set tags in a docker-compose file'
+description: 'Sets tags for images in a docker-compose file'
+inputs:
+  source-tag:
+    description: 'Tag to replace, will be searched for in the compose file'
+    required: false
+    default: "latest"
+  target-tag:
+    description: 'Tag to set, will be searched for in the compose file'
+    required: true
+  target-registry:
+    description: 'Registry to use to check for existence of target tag. Uses the same registry as presented as default'
+    required: false
+    default: "same"
+  compose-file:
+    description: 'Path to compose file. Default: docker-compose.yml'
+    required: false
+    default: "docker-compose.yml"
+runs:
+  using: "composite"
+  steps:
+    - id: set-compose-tag
+      shell: bash
+      run: |
+        . ${{ github.action_path }}/set-compose-tags.sh ${{ inputs.source-tag }} ${{ inputs.target-tag }} ${{ inputs.target-registry }} ${{ inputs.compose-file }}
