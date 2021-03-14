@@ -1,10 +1,8 @@
 source_images=$1
 target_tag=${2:-"latest"}
-target_registry=$3
-composefile=${4:-"docker-compose.yml"}
+composefile=${3:-"docker-compose.yml"}
 
 echo "tag to search for: $target_tag"
-echo "target registry: $target_registry"
 echo "compose file: $composefile"
 
 split() {
