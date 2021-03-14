@@ -2,7 +2,7 @@ name: 'Set tags in a docker-compose file'
 description: 'Sets tags for images in a docker-compose file'
 inputs:
   images:
-    description: 'Full image names to change the tag, separated by semilicon'
+    description: 'Full image names to change the tag, separated by semicolon. Can include tag or skip it'
     required: true
   target-tag:
     description: 'Tag to set, will be searched for in the compose file'

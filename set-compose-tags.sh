@@ -31,6 +31,12 @@ do
   image_tag=$(echo "$image" | awk '{split($0,a,"[:]"); print a[2]}')
   image_to_set="$image_no_tag:$target_tag"
   
-  echo "replacing "$image" with $image_to_set"
-  sed -i -e "s|$image|$image_to_set|g" "$composefile"
+  echo "replacing $image with $image_to_set"
+
+  if [[ -z "$image_tag" ]]; then
+    sed -i -e "s|$image_no_tag$|$image_to_set|g" "$composefile"
+    sed -i -e "s|$image_no_tag:.*|$image_to_set|g" "$composefile"
+  else
+    sed -i -e "s|$image_no_tag:$image_tag|$image_to_set|g" "$composefile"
+  fi
 done
