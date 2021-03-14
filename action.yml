@@ -17,4 +17,4 @@ runs:
     - id: set-compose-tag
       shell: bash
       run: |
-        . ${{ github.action_path }}/set-compose-tags.sh ${{ inputs.images }} ${{ inputs.target-tag }} ${{ inputs.compose-file }}
+        . ${{ github.action_path }}/set-compose-tags.sh "${{ inputs.images }}" "${{ inputs.target-tag }}" "${{ inputs.compose-file }}"

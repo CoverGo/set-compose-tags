@@ -2,7 +2,7 @@ source_images=$1
 target_tag=${2:-"latest"}
 composefile=${3:-"docker-compose.yml"}
 
-echo "tag to search for: $target_tag"
+echo "tag to set: $target_tag"
 echo "compose file: $composefile"
 
 split() {
