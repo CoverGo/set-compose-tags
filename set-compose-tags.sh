@@ -1,6 +1,7 @@
 source_images=$1
 target_tag=${2:-"latest"}
 composefile=${3:-"docker-compose.yml"}
+print_file=${4:-True}
 
 echo "tag to set: $target_tag"
 echo "compose file: $composefile"
@@ -39,4 +40,10 @@ do
   else
     sed -i -e "s|$image_no_tag:$image_tag|$image_to_set|g" "$composefile"
   fi
+  
+if [[ "$print_file" = "True" ]]; then
+  echo "final file"
+  cat "$composefile"
+fi
+
 done

@@ -11,10 +11,14 @@ inputs:
     description: 'Path to compose file. Default: docker-compose.yml'
     required: false
     default: "docker-compose.yml"
+  print-file:
+    description: "Flag to print the final compose file after modifications"
+    required: false
+    default: "True"
 runs:
   using: "composite"
   steps:
     - id: set-compose-tag
       shell: bash
       run: |
-        . ${{ github.action_path }}/set-compose-tags.sh "${{ inputs.images }}" "${{ inputs.target-tag }}" "${{ inputs.compose-file }}"
+        . ${{ github.action_path }}/set-compose-tags.sh "${{ inputs.images }}" "${{ inputs.target-tag }}" "${{ inputs.compose-file }}" "${{ inputs.print-file }}"
