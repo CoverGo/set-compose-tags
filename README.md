@@ -1,5 +1,5 @@
 # set-compose-tags
-Github action to change images tags in a docker-compose files. Usefull for development or integration testing purposes when you need a part of images from a main registry with stable verions, and another bunch of images should be taken different, specific to your branch. 
+Github action to change images tag in a docker-compose file. Useful for development or integration testing purposes when you need a part of images from the main registry with stable versions, and another bunch of images should be taken different, specific to your branch. 
 
 ## Usage
 ```yml
@@ -12,7 +12,10 @@ Github action to change images tags in a docker-compose files. Usefull for devel
 ```
 ## Parameters
 **compose-file** path to docker compose file to manipulate
-**images** semilion-separated list of images to search for
+
+**images** semicolon-separated list of images to search for
+
 **target-tag** tag to set on images specified
+
 ## Outputs
  None. All changes are performed in the target file. 
