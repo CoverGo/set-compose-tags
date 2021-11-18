@@ -41,9 +41,9 @@ do
     sed -i -e "s|$image_no_tag:$image_tag|$image_to_set|g" "$composefile"
   fi
   
+done
+
 if [[ "$print_file" = "True" ]]; then
-  echo "final file"
+  echo "----final file-----"
   cat "$composefile"
 fi
-
-done
